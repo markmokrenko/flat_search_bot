@@ -22,7 +22,7 @@ async def show_me_requests(message : types.Message):
     await sql_send_users_flats(message)
 
 async def delete_my_request(callback : types.CallbackQuery):
-    '''Удаляет сообщение с параметрами квартиры и квартиру из базы данных'''
+    """Удаляет сообщение с параметрами квартиры и квартиру из базы данных"""
     await callback.message.delete()
     await sql_delete_users_flats(callback)
 
