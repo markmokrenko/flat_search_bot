@@ -84,6 +84,9 @@ async def floor_choose(callback: types.CallbackQuery,
 
 async def max_price_choose(message: types.Message,
                            state: FSMContext):
+    """ Функция добавляет в state.proxy() максимальную цену от пользователя, проверяет int ли это,
+    удаляет сообщение с ценой (но не сообщение "Введите максимальную цену" не знаю как его удалить,
+    добавляет заявку в базу данных users, вызывает функцию создания url адреса """
     async with state.proxy() as data:
         try:
             data['price'] = int(message.text)
@@ -99,10 +102,9 @@ async def max_price_choose(message: types.Message,
         await sql_add_users_flat(state)
         await message.answer('Выбор сохранен')
         try:
-            await create_url(state)
+            await message.answer(await create_url(state))
         except Exception as err:
-            print(err)
-            await message.answer('Ошибка создания url-адреса')
+            await message.answer(f'Ошибка создания url-адреса:\n{err}')
     except Exception:
         await message.answer('Произошла ошибка, изменения не сохранены')
     await state.finish()

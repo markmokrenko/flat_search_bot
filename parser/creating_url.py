@@ -70,4 +70,4 @@ async def create_url(state):
             list_url_components.append('?' + max_price + str(data['price']))
         else:
             list_url_components.append('&' + max_price + str(data['price']))
-        return (START_URL + ''.join(list_url_components))
+        return START_URL + ''.join(list_url_components)
