@@ -87,7 +87,7 @@ async def max_price_choose(message: types.Message,
         try:
             data['price'] = int(message.text)
         except Exception:
-            await message.reply('Введи число нормально')
+            await message.reply('Введите число')
     await message.answer(
         f"*Выбранные параметры*\n*Город:* {data['city']}\n*Район:* {data['district']}"
         f"\n*Количество комнат:* {data['rooms']}\n*Этаж:* {data['floor']}\n*Максимальная цена:* {data['price']}",
