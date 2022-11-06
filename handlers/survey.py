@@ -5,6 +5,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 import datetime
 from databases.users_db import sql_add_users_flat
+from parser.creating_url import create_url
 
 
 class FSMAdmin(StatesGroup):
@@ -97,6 +98,11 @@ async def max_price_choose(message: types.Message,
     try:
         await sql_add_users_flat(state)
         await message.answer('Выбор сохранен')
+        try:
+            await create_url(state)
+        except Exception as err:
+            print(err)
+            await message.answer('Ошибка создания url-адреса')
     except Exception:
         await message.answer('Произошла ошибка, изменения не сохранены')
     await state.finish()

@@ -20,9 +20,9 @@ async def sql_add_users_flat(state):
 
 
 async def sql_send_users_flats(message):
-    '''отправляет пользователю список квартир из БД
+    """отправляет пользователю список квартир из БД
     !!!! обрати внимание, что при исправлениях здесь
-    нужно исправить метод sql_delete_users_flats'''
+    нужно исправить метод sql_delete_users_flats"""
     for flat in cur.execute('SELECT datetime, city, district, neighborhood, rooms,'
                             ' floor, heating, price FROM users WHERE username == ?',
                             (message.from_user.username,)).fetchall():
@@ -33,18 +33,17 @@ async def sql_send_users_flats(message):
 
 
 async def sql_delete_users_flats(callback):
-    '''удаляет квартиру из БД по времени и юзернейму
+    """удаляет квартиру из БД по времени и юзернейму
     !!!! обрати внимание, что время вырезается из сообщения, поэтому при
-    изменении формата сообщения, нужно будет исправить split в этом методе'''
+    изменении формата сообщения, нужно будет исправить split в этом методе"""
     cur.execute('DELETE FROM users WHERE datetime == ? AND username == ?',
                 (callback.message.text.split('\n')[1][-19:], callback.from_user.username))
     base.commit()
 
 
 def sql_count_users_flats(username) -> int:
-    ''' считает, сколько запросов на поиск выполнял пользователь '''
+    """ считает, сколько запросов на поиск выполнял пользователь """
     lst_of_rows = cur.execute('SELECT username FROM users WHERE username == ?', (username,)).fetchall()
     base.commit()
     length = len(lst_of_rows)
     return length
-    # print(type(len(lst_of_rows)))

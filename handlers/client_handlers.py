@@ -11,9 +11,10 @@ async def command_start_reply(message: types.Message):
     await message.delete()
 
 async def start_survey(message : types.Message):
+    """ Начинает опрос пользователя, если количество предыдущих опросов меньше 3 """
     if sql_count_users_flats(message.from_user.username) < 3:
-    # print(type(sql_count_users_flats(message.from_user.username)))
         await survey.cm_start(message)
+
     else:
         await message.answer('У вас больше 3 запросов, удалите один или несколько')
 
